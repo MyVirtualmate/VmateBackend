@@ -1,7 +1,8 @@
 # VMate
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/8ebbde84-fef3-4530-b5a6-1f959a60f886" alt="Vmate" width="400"/>
+  <img src="https://github.com/user-attachments/assets/adee2e64-aa32-45f7-99dc-b5b31e898c25" alt="Vmate" width="400"/>
 </div>
+
 
 
 ## ✨ 프로젝트 소개 ( プロジェクト紹介 )
