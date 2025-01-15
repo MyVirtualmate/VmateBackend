@@ -1,6 +1,5 @@
 package com.vmate.vmatebe.domain.member.follow.service;
 
-import com.vmate.vmatebe.domain.member.follow.dto.FollowingListResponse;
 import com.vmate.vmatebe.domain.member.follow.entity.Follow;
 import com.vmate.vmatebe.domain.member.follow.repository.FollowRepository;
 import com.vmate.vmatebe.domain.member.member.entity.Member;
@@ -19,12 +18,12 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public void follow(Member mate, Member follower) {
-        if (mate.equals(follower)) {
+    public void follow(Member mate, Member username) {
+        if (mate.equals(username)) {
             throw new IllegalArgumentException("자기 자신을 팔로우할 수 없습니다.");
         }
 
-        Optional<Follow> isExist = followRepository.findByFollowerIdAndFollowingId(follower.getId(),
+        Optional<Follow> isExist = followRepository.findByFollowerIdAndFollowingId(username.getId(),
                 mate.getId());
 
         if (isExist.isPresent()) {
@@ -32,14 +31,14 @@ public class FollowService {
         }
 
         Follow follow = Follow.builder()
-                .follower(follower)
+                .follower(username)
                 .following(mate)
                 .build();
 
         followRepository.save(follow);
     }
 
-    @Transactional
+/*    @Transactional
     public void unfollow(Member mate, Member follower) {
         Follow follow = followRepository.findByFollowerIdAndFollowingId(follower.getId(), mate.getId())
                 .orElseThrow(() -> new IllegalArgumentException("팔로우하지 않은 아티스트입니다."));
@@ -51,7 +50,7 @@ public class FollowService {
         return member.getMateFollowingList().stream()
                 .map(follow -> FollowingListResponse.fromEntity(follow.getFollowing()))
                 .toList();
-    }
+    }*/
 
     public List<Member> getAllFollowerList(Member mate) {
         return mate.getMateFollowerList().stream()
