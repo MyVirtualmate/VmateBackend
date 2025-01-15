@@ -44,6 +44,14 @@ public class MemberService {
     public Optional<Member> findByUserEmail(String userEmail) {
         return memberRepository.findByUserEmail(userEmail);
     }
+    
+    public Optional<Member> findByUsername(String username) {
+        return memberRepository.findByUsername(username);
+    }
+    
+    public Member getMemberByUsername(String username) {
+        return findByUserEmail(username).orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
+    }
 
     public RsData<Member> whenSocialLogin(String providerTypeCode, String username, String nickname, String profileImgUrl) {
         Optional<Member> opMember = findByUserEmail(username);

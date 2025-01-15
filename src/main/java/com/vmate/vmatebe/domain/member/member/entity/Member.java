@@ -1,5 +1,6 @@
 package com.vmate.vmatebe.domain.member.member.entity;
 
+import com.vmate.vmatebe.domain.member.follow.entity.Follow;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,6 +32,7 @@ public class Member {
     private LocalDateTime modifyDate;
 
     @Column(unique = true)
+    private String username;
     private String userEmail;
     private String password;
 
@@ -49,6 +51,12 @@ public class Member {
 
     //불러오기 필요
     private String accountId;
+
+    @OneToMany(mappedBy = "mate_following")
+    private List<Follow> mateFollowingList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "mate_follower")
+    private List<Follow> mateFollowerList = new ArrayList<>();
 
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
