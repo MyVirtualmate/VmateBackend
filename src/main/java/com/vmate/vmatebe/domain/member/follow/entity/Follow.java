@@ -20,9 +20,9 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Member mate_following;
+    private Member follower;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    private Member mate_follower;
+    private Member following;
 }

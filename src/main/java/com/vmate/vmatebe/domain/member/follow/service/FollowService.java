@@ -19,29 +19,29 @@ public class FollowService {
     private final FollowRepository followRepository;
 
     @Transactional
-    public void follow(Member artist, Member follower) {
-        if (artist.equals(follower)) {
+    public void follow(Member mate, Member follower) {
+        if (mate.equals(follower)) {
             throw new IllegalArgumentException("자기 자신을 팔로우할 수 없습니다.");
         }
 
         Optional<Follow> isExist = followRepository.findByFollowerIdAndFollowingId(follower.getId(),
-                artist.getId());
+                mate.getId());
 
         if (isExist.isPresent()) {
             throw new IllegalArgumentException("이미 팔로우한 아티스트입니다.");
         }
 
         Follow follow = Follow.builder()
-                .mate_follower(follower)
-                .mate_following(artist)
+                .follower(follower)
+                .following(mate)
                 .build();
 
         followRepository.save(follow);
     }
 
     @Transactional
-    public void unfollow(Member artist, Member follower) {
-        Follow follow = followRepository.findByFollowerIdAndFollowingId(follower.getId(), artist.getId())
+    public void unfollow(Member mate, Member follower) {
+        Follow follow = followRepository.findByFollowerIdAndFollowingId(follower.getId(), mate.getId())
                 .orElseThrow(() -> new IllegalArgumentException("팔로우하지 않은 아티스트입니다."));
 
         followRepository.delete(follow);
@@ -49,12 +49,12 @@ public class FollowService {
 
     public List<FollowingListResponse> getAllFollowingList(Member member) {
         return member.getMateFollowingList().stream()
-                .map(follow -> FollowingListResponse.fromEntity(follow.getMate_following()))
+                .map(follow -> FollowingListResponse.fromEntity(follow.getFollowing()))
                 .toList();
     }
 
-    public List<Member> getAllFollowerList(Member artist) {
-        return artist.getMateFollowerList().stream()
-                .map(Follow::getMate_follower).toList();
+    public List<Member> getAllFollowerList(Member mate) {
+        return mate.getMateFollowerList().stream()
+                .map(Follow::getFollower).toList();
     }
 }

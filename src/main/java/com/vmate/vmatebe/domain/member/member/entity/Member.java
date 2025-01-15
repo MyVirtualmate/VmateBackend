@@ -52,10 +52,10 @@ public class Member {
     //불러오기 필요
     private String accountId;
 
-    @OneToMany(mappedBy = "mate_following")
+    @OneToMany(mappedBy = "following")
     private List<Follow> mateFollowingList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "mate_follower")
+    @OneToMany(mappedBy = "follower")
     private List<Follow> mateFollowerList = new ArrayList<>();
 
     @Transient
