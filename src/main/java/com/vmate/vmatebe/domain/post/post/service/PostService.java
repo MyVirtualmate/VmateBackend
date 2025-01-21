@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,5 +23,9 @@ public class PostService {
                 .published(published)
                 .build();
         postRepository.save(post);
+    }
+
+    public List<Post> findByPublished(boolean published) {
+        return postRepository.findByPublishedOrderByIdDesc(published);
     }
 }

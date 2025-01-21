@@ -51,6 +51,10 @@ public class Member extends BaseTime {
     
     @OneToOne
     private MemberPreferences memberPreferences;
+    
+    public String getName() {
+        return username;
+    }
 
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
