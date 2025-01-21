@@ -12,7 +12,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
 public class Post extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member author;

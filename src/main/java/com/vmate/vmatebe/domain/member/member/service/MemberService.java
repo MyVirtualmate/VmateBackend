@@ -5,6 +5,7 @@ import com.vmate.vmatebe.domain.member.member.repository.MemberRepository;
 import com.vmate.vmatebe.global.exceptions.GlobalException;
 import com.vmate.vmatebe.global.rsData.RsData;
 import com.vmate.vmatebe.global.security.SecurityUser;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,17 @@ public class MemberService {
     
     public Member getMemberByUsername(String username) {
         return findByUserEmail(username).orElseThrow(() -> new GlobalException("400-1", "해당 유저가 존재하지 않습니다."));
+    }
+
+    public void updateIsStreamer(Long memberId, Boolean isStreamer) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        Member updatedMember = member.toBuilder()
+                .isStreamer(isStreamer)
+                .build();
+
+        memberRepository.save(updatedMember);
     }
 
     public RsData<Member> whenSocialLogin(String providerTypeCode, String username, String nickname, String profileImgUrl) {

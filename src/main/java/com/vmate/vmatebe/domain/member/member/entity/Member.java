@@ -21,18 +21,18 @@ import java.util.List;
 public class Member extends BaseTime {
     @Column(unique = true)
     private String username;
-    
+
     @Column(unique = true)
     private String userEmail;
     private String password;
 
     private String profileImgUrl;
 
-    @Setter
     @Column(unique = true)
     private String refreshToken;
 
-    private Boolean isStreamer;
+    @Builder.Default
+    private Boolean isStreamer = false;
 
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
@@ -48,10 +48,10 @@ public class Member extends BaseTime {
 
     @OneToMany(mappedBy = "follower")
     private List<Follow> mateFollowerList = new ArrayList<>();
-    
+
     @OneToOne
     private MemberPreferences memberPreferences;
-    
+
     public String getName() {
         return username;
     }

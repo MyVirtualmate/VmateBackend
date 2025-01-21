@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.IntStream;
-
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
@@ -27,7 +25,9 @@ public class NotProd {
             @Transactional
             @Override
             public void run(ApplicationArguments args) {
-                if (memberService.findByUsername("user1@sample.com").isPresent()) return;
+                Member memberUser1 = memberService.join("user1@sample.com", "1234").getData();
+                memberService.updateIsStreamer(memberUser1.getId(), true);
+/*                if (memberService.findByUsername("user1@sample.com").isPresent()) return;
                 Member memberUser1 = memberService.join("user1@sample.com", "1234").getData();
                 memberUser1.setRefreshToken("user1");
                 Member memberUser2 = memberService.join("user2@sample.com", "1234").getData();
@@ -44,7 +44,7 @@ public class NotProd {
                 postService.write(memberUser2, "제목 6", "내용 6", false);
                 IntStream.rangeClosed(7, 150).forEach(i -> {
                     postService.write(memberUser3, "제목 " + i, "내용 " + i, true);
-                });
+                });*/
             }
         };
     }
