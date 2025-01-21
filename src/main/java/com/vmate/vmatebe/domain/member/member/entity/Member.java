@@ -1,15 +1,13 @@
 package com.vmate.vmatebe.domain.member.member.entity;
 
 import com.vmate.vmatebe.domain.member.follow.entity.Follow;
+import com.vmate.vmatebe.global.jpa.entity.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,27 +15,20 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @CreatedDate
-    private LocalDateTime createDate;
-
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
-
+public class Member extends BaseTime {
     @Column(unique = true)
     private String username;
+    
+    @Column(unique = true)
     private String userEmail;
     private String password;
 
     private String profileImgUrl;
 
+    @Setter
     @Column(unique = true)
     private String refreshToken;
 
@@ -57,6 +48,9 @@ public class Member {
 
     @OneToMany(mappedBy = "follower")
     private List<Follow> mateFollowerList = new ArrayList<>();
+    
+    @OneToOne
+    private MemberPreferences memberPreferences;
 
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
